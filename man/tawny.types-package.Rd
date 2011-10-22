@@ -2,13 +2,9 @@
 \alias{tawny.types-package}
 \alias{tawny.types}
 \docType{package}
-\title{
-What the package does (short line)
-~~ package title ~~
-}
+\title{Common types for tawny}
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+Base types used throughout tawny
 }
 \details{
 \tabular{ll}{
@@ -19,25 +15,17 @@ Date: \tab 2011-10-22\cr
 License: \tab What license is it under?\cr
 LazyLoad: \tab yes\cr
 }
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
+Create portfolio objects from these types
 }
 \author{
-Who wrote it
+Brian Lee Yung Rowe
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
+Maintainer: Brian Lee Yung Rowe <r@nurometic.com>
 }
-\references{
-~~ Literature or other references for background information ~~
-}
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-~~ the R documentation directory ~~
 \keyword{ package }
 \seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
+\code{\link[tawny:tawny-package]}
 }
 \examples{
-~~ simple examples of the most important functions ~~
+p <- create(TawnyPortfolio, c('AAPL','GOOG','IBM'))
 }
