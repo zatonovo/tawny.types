@@ -4,10 +4,10 @@
 \description{
 }
 \usage{
-create(EquityIndex, ticker = "^GSPC", hint = NA, src = "yahoo")
+create.EquityIndex(T, ticker = "^GSPC", hint = NA, src = "yahoo")
 }
 \arguments{
-  \item{EquityIndex}{ The type }
+  \item{T}{EquityIndex}
   \item{ticker}{ The ticker representing the index }
   \item{hint}{ }
   \item{src}{ }

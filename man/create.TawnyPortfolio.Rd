@@ -6,10 +6,12 @@
 \description{
 }
 \usage{
-create(TawnyPortfolio, returns, window = 90)
-create(TawnyPortfolio, symbols, window = 90, obs = 150)
+create.TawnyPortfolio(...)
+create.TawnyPortfolio.ret(T, returns, window = 90)
+create.TawnyPortfolio.sym(T, symbols, window = 90, obs = 150)
 }
 \arguments{
+  \item{T}{ TawnyPortfolio }
   \item{returns}{ }
   \item{symbols}{ }
   \item{window}{ }

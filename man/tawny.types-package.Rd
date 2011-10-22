@@ -24,7 +24,7 @@ Maintainer: Brian Lee Yung Rowe <r@nurometic.com>
 }
 \keyword{ package }
 \seealso{
-\code{\link[tawny:tawny-package]}
+\code{\link[tawny:tawny-package]{}}
 }
 \examples{
 p <- create(TawnyPortfolio, c('AAPL','GOOG','IBM'))

@@ -5,10 +5,10 @@
 AssetReturns contains some meta-data for asset returns objects.
 }
 \usage{
-create(AssetReturns, symbols, obs = NULL, start = NULL, end = Sys.Date(), fun = function(x) Delt(Cl(x)), reload = FALSE, na.value = NA, ...)
+create.AssetReturns(T, symbols, obs = NULL, start = NULL, end = Sys.Date(), fun = function(x) Delt(Cl(x)), reload = FALSE, na.value = NA, ...)
 }
 \arguments{
-  \item{AssetReturns}{ The type }
+  \item{T}{AssetReturns}
   \item{symbols}{ }
   \item{obs}{ }
   \item{start}{ }
@@ -28,5 +28,5 @@ Brian Lee Yung Rowe
 }
 
 \examples{
-  returns <- create(AssetReturns, c('BAC','JPM','C','GS','MS'))
+  returns <- create(AssetReturns, c('BAC','JPM','C','GS','MS'), 90)
 }
