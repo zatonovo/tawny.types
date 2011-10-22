@@ -1,9 +1,7 @@
 .onLoad <- function(a,b)
 {
   require(futile.paradigm)
-  require(futile.any)
   require(futile.logger)
-  require(zoo)
   require(quantmod)
   .init()
 }

@@ -28,5 +28,8 @@ Brian Lee Yung Rowe
 }
 
 \examples{
+  # This is run automatically in the package
+  tawny.types:::.init()
+
   returns <- create(AssetReturns, c('BAC','JPM','C','GS','MS'), 90)
 }

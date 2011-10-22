@@ -27,5 +27,8 @@ Maintainer: Brian Lee Yung Rowe <r@nurometic.com>
 \code{\link[tawny:tawny-package]{}}
 }
 \examples{
+# This is run automatically in the package
+tawny.types:::.init()
+
 p <- create(TawnyPortfolio, c('AAPL','GOOG','IBM'))
 }

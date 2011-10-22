@@ -22,5 +22,8 @@ Brian Lee Yung Rowe
 }
 
 \examples{
+  # This is run automatically in the package
+  tawny.types:::.init()
+
   index <- create(EquityIndex)
 }

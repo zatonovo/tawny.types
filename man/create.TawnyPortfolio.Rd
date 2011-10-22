@@ -26,5 +26,8 @@ Brian Lee Yung Rowe
 }
 
 \examples{
+  # This is run automatically in the package
+  tawny.types:::.init()
+
   port <- create(TawnyPortfolio, c('BAC','JPM','C','GS','MS'))
 }
