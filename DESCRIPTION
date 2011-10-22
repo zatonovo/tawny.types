@@ -2,7 +2,7 @@ Package: tawny.types
 Type: Package
 Title: Common types for tawny
 Version: {version}
-Depends: futile.paradigm
+Depends: futile.logger, futile.paradigm
 Date: {date}
 Author: Brian Lee Yung Rowe
 Maintainer: Brian Lee Yung Rowe <r@nurometic.com>
