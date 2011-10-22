@@ -1,0 +1,11 @@
+Package: tawny.types
+Type: Package
+Title: Common types for tawny
+Version: {version}
+Depends: futile.paradigm
+Date: {date}
+Author: Brian Lee Yung Rowe
+Maintainer: Brian Lee Yung Rowe <r@nurometic.com>
+Description: Base library of types for tawny and related packages
+License: GPL-2
+LazyLoad: yes
