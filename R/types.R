@@ -11,7 +11,7 @@ create.TawnyPortfolio.sym %when% is.character(symbols)
 create.TawnyPortfolio.sym <- function(T, symbols, window, obs)
 {
   returns = create(AssetReturns, symbols, obs)
-  list(symbols=symbols, window=window, obs=obs)
+  list(symbols=symbols, window=window, obs=obs, returns=returns)
 }
 
 create.TawnyPortfolio.ret1 %when% (returns %isa% AssetReturns)
@@ -27,6 +27,10 @@ create.TawnyPortfolio.ret <- function(T, returns, window)
   list(symbols=anynames(returns), window=window, obs=obs, returns=returns)
 }
 
+rollapply.TawnyPortfolio <- function(p, fun=fun...)
+{
+  rollapply(p$returns, width=p$window, fun, ...)
+}
 
 # This produces a portfolio in matrix format (t x m) as a zoo class. 
 # Params
