@@ -1,15 +1,27 @@
 
 create.TawnyPortfolio <- function(...) UseFunction('create.TawnyPortfolio',...)
 
+create.TawnyPortfolio.sym2 %when% is.character(symbols)
+create.TawnyPortfolio.sym2 <- function(T, symbols)
+{
+  create.TawnyPortfolio.sym(T, symbols, 90, 150)
+}
+
 create.TawnyPortfolio.sym %when% is.character(symbols)
-create.TawnyPortfolio.sym <- function(T, symbols, window=90, obs=150)
+create.TawnyPortfolio.sym <- function(T, symbols, window, obs)
 {
   returns = create(AssetReturns, symbols, obs)
   list(symbols=symbols, window=window, obs=obs)
 }
 
+create.TawnyPortfolio.ret1 %when% (returns %isa% AssetReturns)
+create.TawnyPortfolio.ret1 <- function(T, returns)
+{
+  create.TawnyPortfolio.ret(T, returns, 90)
+}
+
 create.TawnyPortfolio.ret %when% (returns %isa% AssetReturns)
-create.TawnyPortfolio.ret <- function(T, returns, window=90)
+create.TawnyPortfolio.ret <- function(T, returns, window)
 {
   obs = anylength(returns) - window
   list(symbols=anynames(returns), window=window, obs=obs, returns=returns)
@@ -34,19 +46,27 @@ create.TawnyPortfolio.ret <- function(T, returns, window=90)
 #  Add method to add other portfolio elements (such as synthetic securities)
 # Example:
 #  h <- create(AssetReturns, c('GOOG','AAPL','BAC','C','F','T'), 150)
-create.AssetReturns <- function(T, symbols, obs=NULL,
-  start=NULL, end=Sys.Date(),
-  fun=function(x) Delt(Cl(x)), reload=FALSE, na.value=NA, ...)
-{
-  if (is.null(start) & is.null(obs)) { stop("Either obs or start must be set") }
-  end <- as.Date(end)
+#create.AssetReturns <- function(...) UseFunction('create.AssetReturns',...)
 
+create.AssetReturns.obs %when% is.integer(obs)
+create.AssetReturns.obs <- function(T, symbols, obs)
+{
   # Estimate calendar days from windowed business days. The 10 is there to
   # ensure enough points, which get trimmed later
-  if (is.null(start)) { start <- end - (10 + obs * 365/250) }
+  end <- Sys.Date()
+  start <- end - (10 + obs * 365/250)
+}
 
+create.AssetReturns.time1 %when% TRUE
+create.AssetReturns.time1 <- function(T, symbols, start)
+{
+  create.AssetReturns(T, symbols, start, end=Sys.Date())
+}
+
+create.AssetReturns.time2 %when% TRUE
+create.AssetReturns.time2 <- function(T, symbols, start, end)
+{
   #ensure(symbols, src='yahoo', reload=reload, from=start, to=end, ...)
-
   # Merge into a single zoo object
   p <- xts(order.by=end)
   for (s in symbols)
