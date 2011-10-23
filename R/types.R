@@ -1,6 +1,8 @@
 
 create.TawnyPortfolio <- function(...) UseFunction('create.TawnyPortfolio',...)
 
+# Example
+# p <- create(TawnyPortfolio, c('FCX','AAPL','JPM','AMZN','VMW','TLT','GLD','FXI','ILF','XOM'))
 create.TawnyPortfolio.sym2 %when% is.character(symbols)
 create.TawnyPortfolio.sym2 <- function(T, symbols)
 {
@@ -27,9 +29,18 @@ create.TawnyPortfolio.ret <- function(T, returns, window)
   list(symbols=anynames(returns), window=window, obs=obs, returns=returns)
 }
 
-rollapply.TawnyPortfolio <- function(p, fun=fun...)
+rollapply.TawnyPortfolio <- function(p, fun=fun, ...)
 {
-  rollapply(p$returns, width=p$window, fun, ...)
+  steps <- array(seq(1,p$obs - p$window + 1))
+  apply(steps, 1, function(idx) fun(window.at(p,idx), ...))
+}
+
+window.at.p %when% (p %isa% TawnyPortfolio)
+window.at.p <- function(p, idx)
+{
+  returns <- p$returns[idx:p$window,]
+  p$returns <- returns
+  p
 }
 
 # This produces a portfolio in matrix format (t x m) as a zoo class. 
