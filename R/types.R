@@ -46,27 +46,19 @@ create.TawnyPortfolio.ret <- function(T, returns, window)
 #  Add method to add other portfolio elements (such as synthetic securities)
 # Example:
 #  h <- create(AssetReturns, c('GOOG','AAPL','BAC','C','F','T'), 150)
-#create.AssetReturns <- function(...) UseFunction('create.AssetReturns',...)
-
-create.AssetReturns.obs %when% is.integer(obs)
-create.AssetReturns.obs <- function(T, symbols, obs)
+create.AssetReturns <- function(T, symbols, obs=NULL,
+  start=NULL, end=Sys.Date(),
+  fun=function(x) Delt(Cl(x)), reload=FALSE, na.value=NA, ...)
 {
+  if (is.null(start) & is.null(obs)) { stop("Either obs or start must be set") }
+  end <- as.Date(end)
+
   # Estimate calendar days from windowed business days. The 10 is there to
   # ensure enough points, which get trimmed later
-  end <- Sys.Date()
-  start <- end - (10 + obs * 365/250)
-}
+  if (is.null(start)) { start <- end - (10 + obs * 365/250) }
 
-create.AssetReturns.time1 %when% TRUE
-create.AssetReturns.time1 <- function(T, symbols, start)
-{
-  create.AssetReturns(T, symbols, start, end=Sys.Date())
-}
-
-create.AssetReturns.time2 %when% TRUE
-create.AssetReturns.time2 <- function(T, symbols, start, end)
-{
   #ensure(symbols, src='yahoo', reload=reload, from=start, to=end, ...)
+
   # Merge into a single zoo object
   p <- xts(order.by=end)
   for (s in symbols)
