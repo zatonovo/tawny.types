@@ -32,11 +32,11 @@ create.TawnyPortfolio.ret <- function(T, returns, window)
 rollapply.TawnyPortfolio <- function(p, fun=fun, ...)
 {
   steps <- array(seq(1,p$obs - p$window + 1))
-  apply(steps, 1, function(idx) fun(window.at(p,idx), ...))
+  apply(steps, 1, function(idx) fun(window_at(p,idx), ...))
 }
 
-window.at.p %when% (p %isa% TawnyPortfolio)
-window.at.p <- function(p, idx)
+window_at.p %when% (p %isa% TawnyPortfolio)
+window_at.p <- function(p, idx)
 {
   returns <- p$returns[idx:p$window,]
   p$returns <- returns
