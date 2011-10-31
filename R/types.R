@@ -1,4 +1,4 @@
-
+############################## TAWNY_PORTFOLIO ###############################
 create.TawnyPortfolio <- function(...) UseFunction('create.TawnyPortfolio',...)
 
 # Example
@@ -13,7 +13,7 @@ create.TawnyPortfolio.sym %when% is.character(symbols)
 create.TawnyPortfolio.sym <- function(T, symbols, window, obs)
 {
   returns = create(AssetReturns, symbols, obs)
-  list(symbols=symbols, window=window, obs=obs, returns=returns)
+  create.TawnyPortfolio.ret(T, returns, window)
 }
 
 create.TawnyPortfolio.ret1 %when% (returns %isa% AssetReturns)
@@ -25,14 +25,18 @@ create.TawnyPortfolio.ret1 <- function(T, returns)
 create.TawnyPortfolio.ret %when% (returns %isa% AssetReturns)
 create.TawnyPortfolio.ret <- function(T, returns, window)
 {
-  obs = anylength(returns) - window
-  list(symbols=anynames(returns), window=window, obs=obs, returns=returns)
+  periods = anylength(returns) - window + 1
+  list(symbols=anynames(returns), window=window, obs=anylength(returns),
+       periods=periods, returns=returns)
 }
 
 rollapply.TawnyPortfolio <- function(p, fun=fun, ...)
 {
-  steps <- array(seq(1,p$obs - p$window + 1))
-  apply(steps, 1, function(idx) fun(window_at(p,idx), ...))
+  steps <- array(seq(1,p$periods))
+  out <- apply(steps, 1, function(idx) fun(window_at(p,idx), ...))
+  out <- t(out)
+  rownames(out) <- index(p$returns[(p$obs - p$periods + 1):p$obs,])
+  out
 }
 
 window_at.p %when% (p %isa% TawnyPortfolio)
@@ -41,6 +45,16 @@ window_at.p <- function(p, idx)
   returns <- p$returns[idx:p$window,]
   p$returns <- returns
   p
+}
+
+start.TawnyPortfolio <- function(p, ...)
+{
+  start(p$returns[p$obs - p$periods,])
+}
+
+end.TawnyPortfolio <- function(p, ...)
+{
+  end(p$returns)
 }
 
 # This produces a portfolio in matrix format (t x m) as a zoo class. 
