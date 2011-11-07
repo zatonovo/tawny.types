@@ -1,8 +1,7 @@
 # From http://rwiki.sciviews.org/doku.php?id=developers:runit
 ## unit tests will not be done if RUnit is not available
 
-# Unit tests are currently failing due to scoping issues
-if(FALSE & require("RUnit", quietly=TRUE)) {
+if(require("RUnit", quietly=TRUE)) {
  
   ## --- Setup ---
  

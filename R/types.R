@@ -22,6 +22,13 @@ create.TawnyPortfolio.ret1 <- function(T, returns)
   create.TawnyPortfolio.ret(T, returns, 90)
 }
 
+create.TawnyPortfolio.zoo %when% (returns %isa% zoo)
+create.TawnyPortfolio.zoo <- function(T, returns, window)
+{
+  class(returns) <- c("AssetReturns", class(returns), "returns")
+  create.TawnyPortfolio.ret(T, returns, window)
+}
+
 create.TawnyPortfolio.ret %when% (returns %isa% AssetReturns)
 create.TawnyPortfolio.ret <- function(T, returns, window)
 {
