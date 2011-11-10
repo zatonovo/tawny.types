@@ -49,7 +49,7 @@ rollapply.TawnyPortfolio <- function(p, fun=fun, ...)
 window_at.p %when% (p %isa% TawnyPortfolio)
 window_at.p <- function(p, idx)
 {
-  returns <- p$returns[idx:p$window,]
+  returns <- p$returns[idx:(p$window + idx - 1),]
   p$returns <- returns
   p
 }
