@@ -42,7 +42,7 @@ rollapply.TawnyPortfolio <- function(p, fun=fun, ...)
   steps <- array(seq(1,p$periods))
   out <- apply(steps, 1, function(idx) fun(window_at(p,idx), ...))
   out <- t(out)
-  rownames(out) <- index(p$returns[(p$obs - p$periods + 1):p$obs,])
+  rownames(out) <- format(index(p$returns[(p$obs - p$periods + 1):p$obs,]))
   out
 }
 
