@@ -53,6 +53,7 @@ test.end.TawnyPortfolio <- function()
   checkTrue(all(row == p$rets[nrow(p$rets),]))
 }
 
+# TODO: Add test to verify rownames
 test.rollapply.TawnyPortfolio <- function()
 {
   p <- get_portfolio()

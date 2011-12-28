@@ -1,36 +1,36 @@
 ############################## TAWNY_PORTFOLIO ###############################
-create.TawnyPortfolio <- function(...) UseFunction('create.TawnyPortfolio',...)
+#create.TawnyPortfolio <- function(...) UseFunction('create.TawnyPortfolio',...)
 
 # Example
 # p <- create(TawnyPortfolio, c('FCX','AAPL','JPM','AMZN','VMW','TLT','GLD','FXI','ILF','XOM'))
-create.TawnyPortfolio.sym2 %when% is.character(symbols)
-create.TawnyPortfolio.sym2 <- function(T, symbols)
+create.TawnyPortfolio %when% is.character(symbols)
+create.TawnyPortfolio %as% function(T, symbols)
 {
-  create.TawnyPortfolio.sym(T, symbols, 90, 150)
+  create.TawnyPortfolio(T, symbols, 90, 150)
 }
 
-create.TawnyPortfolio.sym %when% is.character(symbols)
-create.TawnyPortfolio.sym <- function(T, symbols, window, obs)
+create.TawnyPortfolio %when% is.character(symbols)
+create.TawnyPortfolio %as% function(T, symbols, window, obs)
 {
   returns = create(AssetReturns, symbols, obs)
-  create.TawnyPortfolio.ret(T, returns, window)
+  create.TawnyPortfolio(T, returns, window)
 }
 
-create.TawnyPortfolio.ret1 %when% (returns %isa% AssetReturns)
-create.TawnyPortfolio.ret1 <- function(T, returns)
+create.TawnyPortfolio %when% (returns %isa% AssetReturns)
+create.TawnyPortfolio %as% function(T, returns)
 {
-  create.TawnyPortfolio.ret(T, returns, 90)
+  create.TawnyPortfolio(T, returns, 90)
 }
 
-create.TawnyPortfolio.zoo %when% (returns %isa% zoo)
-create.TawnyPortfolio.zoo <- function(T, returns, window)
+create.TawnyPortfolio %when% (returns %isa% zoo)
+create.TawnyPortfolio %as% function(T, returns, window)
 {
   class(returns) <- c("AssetReturns", class(returns), "returns")
-  create.TawnyPortfolio.ret(T, returns, window)
+  create.TawnyPortfolio(T, returns, window)
 }
 
-create.TawnyPortfolio.ret %when% (returns %isa% AssetReturns)
-create.TawnyPortfolio.ret <- function(T, returns, window)
+create.TawnyPortfolio %when% (returns %isa% AssetReturns)
+create.TawnyPortfolio %as% function(T, returns, window)
 {
   periods = anylength(returns) - window + 1
   list(symbols=anynames(returns), window=window, obs=anylength(returns),
@@ -46,8 +46,8 @@ rollapply.TawnyPortfolio <- function(p, fun=fun, ...)
   out
 }
 
-window_at.p %when% (p %isa% TawnyPortfolio)
-window_at.p <- function(p, idx)
+window_at %when% (p %isa% TawnyPortfolio)
+window_at %as% function(p, idx)
 {
   returns <- p$returns[idx:(p$window + idx - 1),]
   p$returns <- returns
