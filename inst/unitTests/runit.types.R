@@ -58,6 +58,8 @@ test.rollapply.TawnyPortfolio <- function()
 {
   p <- get_portfolio()
   out <- rollapply(p, function(x) colSums(x$returns))
+  cat("\nout:\n")
+  print(out)
   checkTrue(all(out[1,] == colSums(p$returns[1:15,] )))
   checkTrue(all(out[2,] == colSums(p$returns[2:16,] )))
   checkTrue(all(out[3,] == colSums(p$returns[3:17,] )))

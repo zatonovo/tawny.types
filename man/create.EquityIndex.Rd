@@ -2,6 +2,7 @@
 \alias{create.EquityIndex}
 \title{ Create an EquityIndex object }
 \description{
+A wrapper around equity indices.
 }
 \usage{
 create.EquityIndex(T, ticker = "^GSPC", hint = NA, src = "yahoo")
@@ -13,6 +14,8 @@ create.EquityIndex(T, ticker = "^GSPC", hint = NA, src = "yahoo")
   \item{src}{ }
 }
 \details{
+This type takes an index and will download all constituent returns (assuming
+the index composition exists). This uses quantmod as a back-end.
 }
 \value{
 An EquityIndex object

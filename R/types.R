@@ -35,21 +35,21 @@ create.TawnyPortfolio %as% function(T, returns, window)
   create.TawnyPortfolio(T, returns, window)
 }
 
-rollapply.TawnyPortfolio <- function(p, fun=fun, ...)
+rollapply.TawnyPortfolio <- function(x, fun, ...)
 {
-  steps <- array(seq(1,p$periods))
-  out <- apply(steps, 1, function(idx) fun(window_at(p,idx), ...))
+  steps <- array(seq(1,x$periods))
+  out <- apply(steps, 1, function(idx) fun(window_at(x,idx), ...))
   out <- t(out)
-  rownames(out) <- format(index(p$returns[(p$obs - p$periods + 1):p$obs,]))
+  rownames(out) <- format(index(x$returns[(x$obs - x$periods + 1):x$obs,]))
   out
 }
 
-window_at %when% (p %isa% TawnyPortfolio)
-window_at %as% function(p, idx)
+window_at %when% (x %isa% TawnyPortfolio)
+window_at %as% function(x, idx)
 {
-  returns <- p$returns[idx:(p$window + idx - 1),]
-  p$returns <- returns
-  p
+  returns <- x$returns[idx:(x$window + idx - 1),]
+  x$returns <- returns
+  x
 }
 
 start.TawnyPortfolio <- function(x, ...)

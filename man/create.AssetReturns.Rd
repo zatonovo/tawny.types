@@ -19,6 +19,9 @@ create.AssetReturns(T, symbols, obs = NULL, start = NULL, end = Sys.Date(), fun 
   \item{\dots}{ }
 }
 \details{
+This is a thin wrapper around a zoo object containing portfolio returns. It
+is used to type the zoo object based on the business domain, as opposed to the
+programming mechanics.
 }
 \value{
 An AssetReturns object
