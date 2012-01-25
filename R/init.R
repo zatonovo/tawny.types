@@ -1,15 +1,11 @@
-.onLoad <- function(a,b)
+.onLoad <- function(libname,pkgname)
 {
-  require(futile.paradigm)
-  require(futile.logger)
-  require(futile.any)
-  require(quantmod)
   .init()
 }
 
-.init <- function()
+.init <- function(loglevel=INFO)
 {
-  config_logger()
+  config_logger(threshold=loglevel)
   if (!exists('logger')) logger <<- getLogger('tawny')
   if (!exists('tawny.options'))
     tawny.options <<- OptionsManager('tawny.options',
