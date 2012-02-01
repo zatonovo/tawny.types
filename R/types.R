@@ -137,7 +137,7 @@ create.AssetReturns <- function(T, symbols, obs=NULL,
   
   logger(INFO, sprintf("Loaded portfolio with %s assets",ncol(p)))
   out <- p[idx.inf:idx.sup, ]
-  class(out) <- c(class(out), 'returns')
+  class(out) <- c('returns', class(out))
 
   if (is.null(rownames(out))) rownames(out) <- format(index(out), "%Y-%m-%d")
   out
