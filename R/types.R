@@ -1,4 +1,4 @@
-############################## TAWNY_PORTFOLIO ###############################
+##---------------------------- TAWNY_PORTFOLIO -----------------------------##
 # Example
 # p <- create(TawnyPortfolio, c('FCX','AAPL','JPM','AMZN','VMW','TLT','GLD','FXI','ILF','XOM'))
 create.TawnyPortfolio %when% is.character(symbols)
@@ -28,11 +28,28 @@ create.TawnyPortfolio %as% function(T, returns, window)
        periods=periods, returns=returns)
 }
 
+create.TawnyPortfolio %when% (returns %isa% AssetReturns)
+create.TawnyPortfolio %also% (is.list(extra))
+create.TawnyPortfolio %as% function(T, returns, window, extra)
+{
+  periods = anylength(returns) - window + 1
+  c(list(symbols=anynames(returns), window=window, obs=anylength(returns),
+       periods=periods, returns=returns), extra)
+}
+
 create.TawnyPortfolio %when% (returns %isa% zoo)
 create.TawnyPortfolio %as% function(T, returns, window)
 {
-  class(returns) <- c("AssetReturns", class(returns), "returns")
+  class(returns) <- c("AssetReturns", "returns", class(returns))
   create.TawnyPortfolio(T, returns, window)
+}
+
+create.TawnyPortfolio %when% (returns %isa% zoo)
+create.TawnyPortfolio %also% (is.list(extra))
+create.TawnyPortfolio %as% function(T, returns, window, extra)
+{
+  class(returns) <- c("AssetReturns", "returns", class(returns))
+  create.TawnyPortfolio(T, returns, window, extra)
 }
 
 rollapply.TawnyPortfolio <- function(x, fun, ...)
@@ -61,6 +78,72 @@ end.TawnyPortfolio <- function(x, ...)
 {
   end(x$returns)
 }
+
+
+##------------------------- BENCHMARK PORTFOLIO ----------------------------##
+# Convenience function for creating a benchmark portfolio
+# m <- create(BenchmarkPortfolio, '^GSPC', 150, 200)
+create.BenchmarkPortfolio <- function(T, market,window,obs, end=Sys.Date(),...)
+{
+  if (is.character(market))
+  {
+    start <- end - (10 + obs * 365/250)
+    mkt <- getSymbols(market, src='yahoo',from=start,to=end, auto.assign=FALSE)
+  }
+  else mkt <- market
+  # xts has moved to use POSIX
+  #end <- as.POSIXct(end)
+
+  mkt.ret <- Delt(Cl(mkt))
+  mkt.ret <- mkt.ret[index(mkt.ret) <= end]
+  mkt.ret <- tail(mkt.ret, obs)
+
+  w.count <- obs - window + 1
+  weights <-
+    xts(matrix(1,ncol=1,nrow=w.count), order.by=index(tail(mkt.ret, w.count)))
+
+  create(TawnyPortfolio, mkt.ret, window, list(rf.rate=0.01))
+}
+
+
+# Calculate portfolio returns based
+# returns <- create(PortfolioReturns, p, weights)
+# chart.PerformanceSummary(returns)
+create.PortfolioReturns %when% (p %isa% zoo)
+create.PortfolioReturns %as% function(T, p, weights)
+{
+  create.PortfolioReturns(T, p$returns, weights)
+}
+
+create.PortfolioReturns %when% (h %isa% AssetReturns)
+create.PortfolioReturns %as% function(T, h, weights)
+{
+  # Shift dates so weights are used on following date's data for out-of-sample
+  # performance
+  w.index <- c(index(weights[2:anylength(weights)]), end(weights) + 1)
+  index(weights) <- w.index
+ 
+  h.trim <- h[index(h) %in% index(weights)]
+  ts.rets <- apply(zoo(h.trim) * zoo(weights), 1, sum)
+
+  # This is in here to fix some strange behavior related to rownames vs index
+  # in zoo objects and how they are used after an apply function
+  #names(ts.rets) <- index(h.trim)
+  #ts.rets <- zoo(ts.rets, order.by=as.Date(names(ts.rets)))
+  ts.rets <- zoo(ts.rets, order.by=index(h.trim))
+  
+  # This causes problems
+  if (any(is.na(ts.rets)))
+  {
+    logger(WARN,"Filling NA returns with 0")
+    ts.rets[is.na(ts.rets)] <- 0
+  }
+  
+  logger(DEBUG, sprintf("Returns count:%s",anylength(ts.rets)))
+
+  return(ts.rets)
+}
+
 
 # This produces a portfolio in matrix format (t x m) as a zoo class. 
 # Params

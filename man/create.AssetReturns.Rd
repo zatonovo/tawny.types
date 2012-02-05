@@ -5,18 +5,18 @@
 AssetReturns contains some meta-data for asset returns objects.
 }
 \usage{
-create.AssetReturns(T, symbols, obs = NULL, start = NULL, end = Sys.Date(), fun = function(x) Delt(Cl(x)), reload = FALSE, na.value = NA, ...)
+\method{create}{AssetReturns}(T, symbols, obs = NULL, start = NULL, end = Sys.Date(), fun = function(x) Delt(Cl(x)), reload = FALSE, na.value = NA, ...)
 }
 \arguments{
   \item{T}{AssetReturns}
-  \item{symbols}{ }
-  \item{obs}{ }
-  \item{start}{ }
-  \item{end}{ }
-  \item{fun}{ }
-  \item{reload}{ }
-  \item{na.value}{ }
-  \item{\dots}{ }
+  \item{symbols}{A vector of symbols to load}
+  \item{obs}{Number of total observations to load}
+  \item{start}{Start date of data to load}
+  \item{end}{End date of data to load}
+  \item{fun}{Function to apply to calculate returns}
+  \item{reload}{Should existing downloaded data be reloaded?}
+  \item{na.value}{Value to use for NAs}
+  \item{\dots}{Additional arguments}
 }
 \details{
 This is a thin wrapper around a zoo object containing portfolio returns. It

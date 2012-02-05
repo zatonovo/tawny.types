@@ -1,5 +1,7 @@
 \name{create.TawnyPortfolio}
 \alias{create.TawnyPortfolio}
+\alias{create.BenchmarkPortfolio}
+\alias{create.PortfolioReturns}
 \alias{start.TawnyPortfolio}
 \alias{end.TawnyPortfolio}
 \alias{rollapply.TawnyPortfolio}
@@ -10,13 +12,13 @@
   returns, window, etc.
 }
 \usage{
-create.TawnyPortfolio(...)
+\method{create}{TawnyPortfolio}(...)
 
-start.TawnyPortfolio(x, ...)
+\method{start}{TawnyPortfolio}(x, ...)
 
-end.TawnyPortfolio(x, ...)
+\method{end}{TawnyPortfolio}(x, ...)
 
-rollapply.TawnyPortfolio(x, fun, ...)
+\method{rollapply}{TawnyPortfolio}(x, fun, ...)
 
 window_at(...)
 }
@@ -32,6 +34,15 @@ variants.
 create.TawnyPortfolio(T, returns, window = 90)
 
 create.TawnyPortfolio(T, symbols, window = 90, obs = 150)
+
+Creates a benchmark portfolio to compare with the actual portfolio.
+create.BenchmarkPortfolio(T, symbol, window = 90, obs = 150, end = Sys.Date(), ...)
+
+Calculates portfolio returns based on the weights calculated.
+create.PortfolioReturns(T, p, weights), p is a TawnyPortfolio
+
+create.PortfolioReturns(T, h, weights), h is an AssetReturns object or zoo
+
 
 'start' and 'end' operate on a TawnyPortfolio to return the start and end
 dates, respectively, of the portfolio. 
