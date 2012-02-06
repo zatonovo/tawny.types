@@ -2,7 +2,7 @@ Package: tawny.types
 Type: Package
 Title: Common types for tawny
 Version: {version}
-Depends: futile.logger (>= 1.2.0), futile.paradigm (>= 2.0.0), futile.any (>= 1.2.0), quantmod
+Depends: futile.logger (>= 1.2.0), futile.paradigm (>= 2.0.0), futile.any (>= 1.2.0), quantmod, RUnit
 Date: {date}
 Author: Brian Lee Yung Rowe
 Maintainer: Brian Lee Yung Rowe <r@nurometic.com>
