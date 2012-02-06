@@ -97,6 +97,7 @@ create.BenchmarkPortfolio <- function(T, market,window,obs, end=Sys.Date(),...)
   mkt.ret <- Delt(Cl(mkt))
   mkt.ret <- mkt.ret[index(mkt.ret) <= end]
   mkt.ret <- tail(mkt.ret, obs)
+  colnames(mkt.ret) <- 'benchmark'
 
   w.count <- obs - window + 1
   weights <-
@@ -109,7 +110,7 @@ create.BenchmarkPortfolio <- function(T, market,window,obs, end=Sys.Date(),...)
 # Calculate portfolio returns based
 # returns <- create(PortfolioReturns, p, weights)
 # chart.PerformanceSummary(returns)
-create.PortfolioReturns %when% (p %isa% zoo)
+create.PortfolioReturns %when% (p %isa% TawnyPortfolio)
 create.PortfolioReturns %as% function(T, p, weights)
 {
   create.PortfolioReturns(T, p$returns, weights)
