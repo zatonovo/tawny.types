@@ -37,9 +37,11 @@ TawnyPortfolio(returns, window = 90)
 TawnyPortfolio(symbols, window = 90, obs = 150)
 
 Creates a benchmark portfolio to compare with the actual portfolio.
+
 BenchmarkPortfolio(symbol, window = 90, obs = 150, end = Sys.Date(), ...)
 
 Calculates portfolio returns based on the weights calculated.
+
 PortfolioReturns(p, weights), p is a TawnyPortfolio
 
 PortfolioReturns(h, weights), h is an AssetReturns object or zoo

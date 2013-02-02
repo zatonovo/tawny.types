@@ -17,17 +17,22 @@ programming mechanics.
 
 AssetReturns(symbols, obs = NULL, start = NULL, end = Sys.Date(), 
   fun = function(x) Delt(Cl(x)), reload = FALSE, na.value = NA, ...)
-}
-\begin{itemize}
-  \item{symbols}{A vector of symbols to load}
-  \item{obs}{Number of total observations to load}
-  \item{start}{Start date of data to load}
-  \item{end}{End date of data to load}
-  \item{fun}{Function to apply to calculate returns}
-  \item{reload}{Should existing downloaded data be reloaded?}
-  \item{na.value}{Value to use for NAs}
-  \item{\dots}{Additional arguments}
-\end{itemize}
+
+symbols - A vector of symbols to load
+
+obs - Number of total observations to load
+
+start - Start date of data to load
+
+end - End date of data to load
+
+fun - Function to apply to calculate returns
+
+reload - Should existing downloaded data be reloaded?
+
+na.value - Value to use for NAs
+
+\dots - Additional arguments
 }
 \value{
 An AssetReturns object

@@ -16,11 +16,11 @@ the index composition exists). This uses quantmod as a back-end.
 
 EquityIndex(ticker = "^GSPC", hint = NA, src = "yahoo")
 
-\begin{itemize}
-  \item{ticker}{ The ticker representing the index }
-  \item{hint}{Used to determine number of elements in index for paging}
-  \item{src}{Placeholder for data source. Currently only supports yahoo}
-\end{itemize}
+ticker - The ticker representing the index
+
+hint - Used to determine number of elements in index for paging
+
+src - Placeholder for data source. Currently only supports yahoo
 }
 \value{
 An EquityIndex object
