@@ -1,7 +1,7 @@
-\name{create.TawnyPortfolio}
-\alias{create.TawnyPortfolio}
-\alias{create.BenchmarkPortfolio}
-\alias{create.PortfolioReturns}
+\name{TawnyPortfolio}
+\alias{TawnyPortfolio}
+\alias{BenchmarkPortfolio}
+\alias{PortfolioReturns}
 \alias{start.TawnyPortfolio}
 \alias{end.TawnyPortfolio}
 \alias{rollapply.TawnyPortfolio}
@@ -12,7 +12,8 @@
   returns, window, etc.
 }
 \usage{
-\method{create}{TawnyPortfolio}(...)
+TawnyPortfolio(...)
+BenchmarkPortfolio(...)
 
 \method{start}{TawnyPortfolio}(x, ...)
 
@@ -31,17 +32,17 @@ window_at(...)
 This type is governed by futile.paradigm. Below are the supported function
 variants.
 
-create.TawnyPortfolio(T, returns, window = 90)
+TawnyPortfolio(returns, window = 90)
 
-create.TawnyPortfolio(T, symbols, window = 90, obs = 150)
+TawnyPortfolio(symbols, window = 90, obs = 150)
 
 Creates a benchmark portfolio to compare with the actual portfolio.
-create.BenchmarkPortfolio(T, symbol, window = 90, obs = 150, end = Sys.Date(), ...)
+BenchmarkPortfolio(symbol, window = 90, obs = 150, end = Sys.Date(), ...)
 
 Calculates portfolio returns based on the weights calculated.
-create.PortfolioReturns(T, p, weights), p is a TawnyPortfolio
+PortfolioReturns(p, weights), p is a TawnyPortfolio
 
-create.PortfolioReturns(T, h, weights), h is an AssetReturns object or zoo
+PortfolioReturns(h, weights), h is an AssetReturns object or zoo
 
 
 'start' and 'end' operate on a TawnyPortfolio to return the start and end
@@ -65,14 +66,13 @@ Brian Lee Yung Rowe
 }
 
 \examples{
-  # This is run automatically in the package
-  tawny.types:::.init()
-
-  p <- create(TawnyPortfolio, c('BAC','JPM','C','GS','MS'))
+  \dontrun{
+  p <- TawnyPortfolio(c('BAC','JPM','C','GS','MS'))
 
   start(p)
   end(p)
 
   window_at(p, 2)
   rollapply(p, function(x) colSums(x$returns))
+  }
 }

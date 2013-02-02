@@ -1,55 +1,41 @@
 ##---------------------------- TAWNY_PORTFOLIO -----------------------------##
 # Example
 # p <- create(TawnyPortfolio, c('FCX','AAPL','JPM','AMZN','VMW','TLT','GLD','FXI','ILF','XOM'))
-create.TawnyPortfolio %when% is.character(symbols)
-create.TawnyPortfolio %as% function(T, symbols)
+TawnyPortfolio(symbols, window, obs) %::% character : numeric : numeric : list
+TawnyPortfolio(symbols, window=90, obs=150) %as%
 {
-  create.TawnyPortfolio(T, symbols, 90, 150)
+  returns = AssetReturns(symbols, obs)
+  TawnyPortfolio(returns, window)
 }
 
-create.TawnyPortfolio %when% is.character(symbols)
-create.TawnyPortfolio %as% function(T, symbols, window, obs)
-{
-  returns = create(AssetReturns, symbols, obs)
-  create.TawnyPortfolio(T, returns, window)
-}
-
-create.TawnyPortfolio %when% (returns %isa% AssetReturns)
-create.TawnyPortfolio %as% function(T, returns)
-{
-  create.TawnyPortfolio(T, returns, 90)
-}
-
-create.TawnyPortfolio %when% (returns %isa% AssetReturns)
-create.TawnyPortfolio %as% function(T, returns, window)
+TawnyPortfolio(returns, window) %::% AssetReturns : numeric : list
+TawnyPortfolio(returns, window=90) %as%
 {
   periods = anylength(returns) - window + 1
   list(symbols=anynames(returns), window=window, obs=anylength(returns),
        periods=periods, returns=returns)
 }
 
-create.TawnyPortfolio %when% (returns %isa% AssetReturns)
-create.TawnyPortfolio %also% (is.list(extra))
-create.TawnyPortfolio %as% function(T, returns, window, extra)
+TawnyPortfolio(returns, window, extra) %::% AssetReturns : numeric : list : list
+TawnyPortfolio(returns, window, extra) %as%
 {
   periods = anylength(returns) - window + 1
   c(list(symbols=anynames(returns), window=window, obs=anylength(returns),
        periods=periods, returns=returns), extra)
 }
 
-create.TawnyPortfolio %when% (returns %isa% zoo)
-create.TawnyPortfolio %as% function(T, returns, window)
+TawnyPortfolio(returns, window) %::% zoo : numeric : list
+TawnyPortfolio(returns, window) %as%
 {
   class(returns) <- c("AssetReturns", "returns", class(returns))
-  create.TawnyPortfolio(T, returns, window)
+  TawnyPortfolio(returns, window)
 }
 
-create.TawnyPortfolio %when% (returns %isa% zoo)
-create.TawnyPortfolio %also% (is.list(extra))
-create.TawnyPortfolio %as% function(T, returns, window, extra)
+TawnyPortfolio(returns, window, extra) %::% zoo : numeric : list : list
+TawnyPortfolio(returns, window, extra) %as%
 {
   class(returns) <- c("AssetReturns", "returns", class(returns))
-  create.TawnyPortfolio(T, returns, window, extra)
+  TawnyPortfolio(returns, window, extra)
 }
 
 rollapply.TawnyPortfolio <- function(x, fun, ...)
@@ -61,8 +47,8 @@ rollapply.TawnyPortfolio <- function(x, fun, ...)
   out
 }
 
-window_at %when% (x %isa% TawnyPortfolio)
-window_at %as% function(x, idx)
+window_at(x, idx) %::% TawnyPortfolio : a : TawnyPortfolio
+window_at(x, idx) %as%
 {
   returns <- x$returns[idx:(x$window + idx - 1),]
   x$returns <- returns
@@ -83,7 +69,7 @@ end.TawnyPortfolio <- function(x, ...)
 ##------------------------- BENCHMARK PORTFOLIO ----------------------------##
 # Convenience function for creating a benchmark portfolio
 # m <- create(BenchmarkPortfolio, '^GSPC', 150, 200)
-create.BenchmarkPortfolio <- function(T, market,window,obs, end=Sys.Date(),...)
+BenchmarkPortfolio(market,window,obs, end=Sys.Date(),...) %as%
 {
   if (is.character(market))
   {
@@ -103,21 +89,21 @@ create.BenchmarkPortfolio <- function(T, market,window,obs, end=Sys.Date(),...)
   weights <-
     xts(matrix(1,ncol=1,nrow=w.count), order.by=index(tail(mkt.ret, w.count)))
 
-  create(TawnyPortfolio, mkt.ret, window, list(rf.rate=0.01))
+  TawnyPortfolio(mkt.ret, window, list(rf.rate=0.01))
 }
 
 
 # Calculate portfolio returns based
 # returns <- create(PortfolioReturns, p, weights)
 # chart.PerformanceSummary(returns)
-create.PortfolioReturns %when% (p %isa% TawnyPortfolio)
-create.PortfolioReturns %as% function(T, p, weights)
+PortfolioReturns(p, weights) %::% TawnyPortfolio : numeric : a
+PortfolioReturns(p, weights) %as%
 {
-  create.PortfolioReturns(T, p$returns, weights)
+  PortfolioReturns(p$returns, weights)
 }
 
-create.PortfolioReturns %when% (h %isa% AssetReturns)
-create.PortfolioReturns %as% function(T, h, weights)
+PortfolioReturns(h, weights) %::% AssetReturns : numeric : a
+PortfolioReturns(h, weights) %as%
 {
   # Shift dates so weights are used on following date's data for out-of-sample
   # performance
@@ -136,11 +122,11 @@ create.PortfolioReturns %as% function(T, h, weights)
   # This causes problems
   if (any(is.na(ts.rets)))
   {
-    logger(WARN,"Filling NA returns with 0")
+    flog.warn("Filling NA returns with 0")
     ts.rets[is.na(ts.rets)] <- 0
   }
   
-  logger(DEBUG, sprintf("Returns count:%s",anylength(ts.rets)))
+  flog.debug("Returns count: %s", anylength(ts.rets))
 
   return(ts.rets)
 }
@@ -164,9 +150,8 @@ create.PortfolioReturns %as% function(T, h, weights)
 #  Add method to add other portfolio elements (such as synthetic securities)
 # Example:
 #  h <- create(AssetReturns, c('GOOG','AAPL','BAC','C','F','T'), 150)
-create.AssetReturns <- function(T, symbols, obs=NULL,
-  start=NULL, end=Sys.Date(),
-  fun=function(x) Delt(Cl(x)), reload=FALSE, na.value=NA, ...)
+AssetReturns(symbols, obs=NULL, start=NULL, end=Sys.Date(),
+  fun=function(x) Delt(Cl(x)), reload=FALSE, na.value=NA, ...) %as%
 {
   if (is.null(start) & is.null(obs)) { stop("Either obs or start must be set") }
   end <- as.Date(end)
@@ -183,7 +168,7 @@ create.AssetReturns <- function(T, symbols, obs=NULL,
   {
     asset <- getSymbols(s, from=start, to=end, auto.assign=FALSE)
     raw <- fun(asset)
-    logger(INFO, sprintf("Binding %s for [%s,%s]",s, format(start(raw)),format(end(raw))))
+    flog.info("Binding %s for [%s,%s]",s, format(start(raw)),format(end(raw)))
       
     a <- xts(raw, order.by=index(asset))
     p <- cbind(p, a[2:anylength(a)])
@@ -192,25 +177,25 @@ create.AssetReturns <- function(T, symbols, obs=NULL,
   # First remove dates that have primarily NAs (probably bad data)
   o.dates <- rownames(p)
   p <- p[apply(p, 1, function(x) sum(x, na.rm=TRUE) != 0), ]
-  logger(INFO, sprintf("Removed suspected bad dates %s",setdiff(o.dates,rownames(p))))
+  flog.info("Removed suspected bad dates %s",setdiff(o.dates,rownames(p)))
 
   if (! is.na(na.value))
   {
     #for (s in symbols) p[,s][is.na(p[,s])] <- na.value
     p[is.na(p)] <- 0
-    logger(INFO, sprintf("Replaced NAs with %s",na.value))
+    flog.info("Replaced NAs with %s",na.value)
   }
   else
   {
     # NOTE: This has consistency issues when comparing with a market index
     o.dates <- rownames(p)
     p <- p[apply(p, 1, function(x) sum(is.na(x)) < 0.1 * length(x) ), ]
-    logger(INFO, sprintf("Removed dates with too many NAs %s",setdiff(o.dates,rownames(p))))
+    flog.info("Removed dates with too many NAs %s",setdiff(o.dates,rownames(p)))
 
     # Now remove columns with NAs
     nas <- apply(p, 2, function(x) !any(is.na(x)) )
     p <- p[,which(nas == TRUE)]
-    logger(INFO, sprintf("Removed symbols with NAs: %s",setdiff(symbols,anynames(p))))
+    flog.info("Removed symbols with NAs: %s",setdiff(symbols,anynames(p)))
   }
 
   if (is.null(obs)) { return(p[paste(start,end, sep='::')]) }
@@ -219,7 +204,7 @@ create.AssetReturns <- function(T, symbols, obs=NULL,
   idx.inf <- anylength(p) - min(anylength(p), obs) + 1
   idx.sup <- anylength(p)
   
-  logger(INFO, sprintf("Loaded portfolio with %s assets",ncol(p)))
+  flog.info("Loaded portfolio with %s assets",ncol(p))
   out <- p[idx.inf:idx.sup, ]
   class(out) <- c('returns', class(out))
 
@@ -238,7 +223,7 @@ create.AssetReturns <- function(T, symbols, obs=NULL,
 # Get HSI components
 #   hsi.idx <- create(EquityIndex,'^HSI')
 # h <- create(AssetReturns, create(EquityIndex,'^DJI'), obs=100)
-create.EquityIndex <- function(T, ticker='^GSPC', hint=NA, src='yahoo')
+EquityIndex(ticker='^GSPC', hint=NA, src='yahoo') %as%
 {
   if (is.na(hint))
   {
@@ -258,7 +243,7 @@ create.EquityIndex <- function(T, ticker='^GSPC', hint=NA, src='yahoo')
   {
     start <- (page-1) * 50 + 1
     url <- paste(base, ticker, formats, start, sep='')
-    logger(INFO, sprintf("Loading page %s for %s",page,ticker))
+    flog.info("Loading page %s for %s",page,ticker)
     data <- read.csv(url, header=FALSE)
 
     # This is here due to a bug in Yahoo's download where the first record gets

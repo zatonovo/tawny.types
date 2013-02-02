@@ -4,7 +4,7 @@ get_portfolio <- function()
   idx <- as.Date("2011-01-01") + seq(1,20)
   rets <- xts(matrix(rnorm(80), ncol=4), idx)
   colnames(rets) <- c('A','B','C','D')
-  create(TawnyPortfolio, rets, 15)
+  TawnyPortfolio(rets, 15)
 }
 
 test.window_at.portfolio <- function()

@@ -25,9 +25,8 @@ Maintainer: Brian Lee Yung Rowe <r@nurometic.com>
 \keyword{ package }
 \seealso{ \code{\link[tawny]{tawny-package}} }
 \examples{
-# This is run automatically in the package
-tawny.types:::.init()
-
-p <- create(TawnyPortfolio, c('AAPL','GOOG','IBM'), 150,200)
-m <- create(BenchmarkPortfolio, '^GSPC', 150,200)
+\dontrun{
+p <- TawnyPortfolio(c('AAPL','GOOG','IBM'), 150,200)
+m <- BenchmarkPortfolio('^GSPC', 150,200)
+}
 }
