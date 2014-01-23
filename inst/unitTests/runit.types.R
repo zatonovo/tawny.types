@@ -1,3 +1,5 @@
+require(futile.any)
+require(xts)
 
 get_portfolio <- function()
 {

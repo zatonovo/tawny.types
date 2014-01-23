@@ -1,12 +1,15 @@
 Package: tawny.types
 Type: Package
 Title: Common types for tawny
-Version: {version}
-Depends: futile.logger (>= 1.3.0), lambda.r (>= 1.1.0), futile.any (>= 1.2.0), quantmod
+Version: 1.1.1
+Imports: lambda.r (>= 1.1.0), futile.logger (>= 1.3.0), futile.options, futile.any, zoo, xts, quantmod
 Suggests: RUnit
-Date: {date}
+Date: 2014-01-23
 Author: Brian Lee Yung Rowe
 Maintainer: Brian Lee Yung Rowe <r@zatonovo.com>
 Description: Base library of types for tawny and related packages
-License: GPL-2
+License: GPL-3
 LazyLoad: yes
+Collate:
+    'init.R'
+    'types.R'

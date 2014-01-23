@@ -10,17 +10,15 @@ EquityIndex(...)
 \arguments{
   \item{\dots}{Used by lambda.r}
 }
-\details{
+\section{Additional Usage}{
 This type takes an index and will download all constituent returns (assuming
 the index composition exists). This uses quantmod as a back-end.
 
 EquityIndex(ticker = "^GSPC", hint = NA, src = "yahoo")
 
-\begin{itemize}
-  \item{ticker}{ The ticker representing the index }
-  \item{hint}{Used to determine number of elements in index for paging}
-  \item{src}{Placeholder for data source. Currently only supports yahoo}
-\end{itemize}
+ticker - The ticker representing the index\cr
+hint - Used to determine number of elements in index for paging\cr
+src - Placeholder for data source. Currently only supports yahoo\cr
 }
 \value{
 An EquityIndex object

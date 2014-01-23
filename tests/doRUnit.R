@@ -19,6 +19,7 @@ if(require("RUnit", quietly=TRUE)) {
   print(list(pkg=pkg, getwd=getwd(), pathToUnitTests=path))
  
   library(package=pkg, character.only=TRUE)
+  print(search())
  
   ## If desired, load the name space to allow testing of private functions
   ## if (is.element(pkg, loadedNamespaces()))

@@ -1,1 +1,8 @@
 exportPattern("^[^\\.]")
+import(lambda.r)
+import(futile.logger)
+import(futile.options)
+import(futile.any)
+import(zoo)
+import(xts)
+import(quantmod)
