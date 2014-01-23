@@ -21,7 +21,7 @@ Create portfolio objects from these types
 \author{
 Brian Lee Yung Rowe
 
-Maintainer: Brian Lee Yung Rowe <r@nurometic.com>
+Maintainer: Brian Lee Yung Rowe <r@zatonovo.com>
 }
 \keyword{ package }
 \seealso{ \code{\link[tawny]{tawny-package}} }
