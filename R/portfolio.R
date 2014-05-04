@@ -8,35 +8,23 @@ TawnyPortfolio(symbols, window=90, obs=150) %as%
   TawnyPortfolio(returns, window)
 }
 
-TawnyPortfolio(returns, window) %::% AssetReturns : numeric : list
-TawnyPortfolio(returns, window=90) %as%
-{
-  periods = anylength(returns) - window + 1
-  list(symbols=anynames(returns), window=window, obs=anylength(returns),
-       periods=periods, returns=returns)
-}
 
-TawnyPortfolio(returns, window, extra) %::% AssetReturns : numeric : list : list
-TawnyPortfolio(returns, window, extra) %as%
+TawnyPortfolio(returns, window, extra) %::% AssetReturns : numeric : . : list
+TawnyPortfolio(returns, window=90, extra=NULL) %as%
 {
   periods = anylength(returns) - window + 1
   c(list(symbols=anynames(returns), window=window, obs=anylength(returns),
        periods=periods, returns=returns), extra)
 }
 
-TawnyPortfolio(returns, window) %::% zoo : numeric : list
-TawnyPortfolio(returns, window) %as%
+
+TawnyPortfolio(returns, window, extra) %::% zoo : numeric : . : list
+TawnyPortfolio(returns, window, extra=NULL) %as%
 {
-  class(returns) <- c("AssetReturns", "returns", class(returns))
-  TawnyPortfolio(returns, window)
+  TawnyPortfolio(AssetReturns(returns), window, extra)
 }
 
-TawnyPortfolio(returns, window, extra) %::% zoo : numeric : list : list
-TawnyPortfolio(returns, window, extra) %as%
-{
-  class(returns) <- c("AssetReturns", "returns", class(returns))
-  TawnyPortfolio(returns, window, extra)
-}
+
 
 rollapply.TawnyPortfolio <- function(x, fun, ...)
 {
@@ -150,6 +138,9 @@ PortfolioReturns(h, weights) %as%
 #  Add method to add other portfolio elements (such as synthetic securities)
 # Example:
 #  h <- create(AssetReturns, c('GOOG','AAPL','BAC','C','F','T'), 150)
+AssetReturns(returns) %::% zoo : zoo
+AssetReturns(returns) %as% returns
+
 AssetReturns(symbols, obs=NULL, start=NULL, end=Sys.Date(),
   fun=function(x) Delt(Cl(x)), reload=FALSE, na.value=NA, ...) %as%
 {
@@ -211,6 +202,8 @@ AssetReturns(symbols, obs=NULL, start=NULL, end=Sys.Date(),
   if (is.null(rownames(out))) rownames(out) <- format(index(out), "%Y-%m-%d")
   out
 }
+
+
 
 # Generate the composition for an equity index
 # Example

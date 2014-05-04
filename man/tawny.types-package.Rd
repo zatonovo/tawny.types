@@ -2,6 +2,8 @@
 \alias{tawny.types-package}
 \alias{tawny.types}
 \alias{tawny.options}
+\alias{Covariance}
+\alias{Correlation}
 \docType{package}
 \title{Common types for tawny}
 \description{
