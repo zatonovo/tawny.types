@@ -28,6 +28,7 @@ install:
       -e 'install_github("lambda.r","zatonovo")'
       -e 'install_github("lambda.tools","zatonovo")'
       -e 'install_github("futile.logger","zatonovo")'
+      -e 'install.packages("tawny")'
       -e 'install()'
   - git clone https://github.com/muxspace/crant.git ~/crant
 
