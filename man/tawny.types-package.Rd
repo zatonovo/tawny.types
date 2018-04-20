@@ -13,7 +13,7 @@ Base types used throughout tawny
 \tabular{ll}{
 Package: \tab tawny.types\cr
 Type: \tab Package\cr
-Version: \tab 1.1.4\cr
+Version: \tab 1.1.5\cr
 Date: \tab 2018-04-20\cr
 License: \tab What license is it under?\cr
 LazyLoad: \tab yes\cr
